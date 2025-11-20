@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Development Contract Agreement</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            color: #667eea;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="tel"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .contract-terms {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .contract-terms p {
+            color: #333;
+            line-height: 1.8;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .contract-terms ul {
+            margin-left: 20px;
+            margin-bottom: 12px;
+        }
+
+        .contract-terms li {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 8px;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        .signature-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .signature-box {
+            border: 2px dashed #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            background: #fafafa;
+        }
+
+        .signature-box h3 {
+            color: #667eea;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .signature-box p {
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .consent-box {
+            background: #e8f4f8;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border: 2px solid #667eea;
+        }
+
+        .consent-checkbox {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .consent-checkbox input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .consent-checkbox label {
+            margin: 0;
+            cursor: pointer;
+            font-weight: normal;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        button {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-update {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .btn-update:hover {
+            background: #ffb300;
+            transform: translateY(-2px);
+        }
+
+        .btn-sign {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-sign:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+
+        .btn-sign:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-pdf {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-pdf:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .btn-pdf:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: none;
+            text-align: center;
+            border: 1px solid #c3e6cb;
+        }
+
+        .readonly {
+            background: #e9ecef;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            .signature-section {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Website Development Contract Agreement</h1>
+            <p>Professional Web Development Services</p>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Developer Information</div>
+            <div class="form-group">
+                <label>Developer Name:</label>
+                <input type="text" id="devName" value="Mara Masita" readonly class="readonly">
+            </div>
+            <div class="form-group">
+                <label>Contact Number:</label>
+                <input type="tel" id="devPhone" value="0716145925" readonly class="readonly">
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Client Information</div>
+            <div class="form-group">
+                <label>Full Name: *</label>
+                <input type="text" id="clientName" placeholder="Enter your full name" required>
+            </div>
+            <div class="form-group">
+                <label>Email Address: *</label>
+                <input type="email" id="clientEmail" placeholder="your.email@example.com" required>
+            </div>
+            <div class="form-group">
+                <label>Phone Number: *</label>
+                <input type="tel" id="clientPhone" placeholder="Enter your phone number" required>
+            </div>
+            <div class="form-group">
+                <label>Company/Business Name:</label>
+                <input type="text" id="clientCompany" placeholder="Enter company name (optional)">
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Contract Terms & Conditions</div>
+            <div class="contract-terms">
+                <p><strong>Contract Period:</strong> <span class="highlight">November 20, 2025 to November 20, 2027 (2 Years)</span></p>
+                
+                <p><strong>Service Description:</strong></p>
+                <p>The Developer agrees to design, develop, and deliver <span class="highlight">TWO (2) professional websites</span> for the Client for a total fee of <span class="highlight">$200.00 USD</span>.</p>
+                
+                <p><strong>What's Included:</strong></p>
+                <ul>
+                    <li>Custom website design and development</li>
+                    <li>Responsive design (mobile, tablet, desktop)</li>
+                    <li>Basic SEO optimization</li>
+                    <li>Initial content upload</li>
+                    <li>2 years of technical support</li>
+                </ul>
+                
+                <p><strong>Important Notice - What's NOT Included:</strong></p>
+                <ul>
+                    <li><span class="highlight">Domain name registration and fees</span></li>
+                    <li><span class="highlight">Web hosting services and fees</span></li>
+                    <li>SSL certificates</li>
+                    <li>Email hosting</li>
+                    <li>Third-party premium plugins or themes</li>
+                    <li>Content creation (copywriting, photography)</li>
+                </ul>
+                
+                <p><strong>Payment Terms:</strong></p>
+                <p>Total contract value: <span class="highlight">$200.00 USD</span> for both websites. Payment schedule to be agreed upon separately.</p>
+                
+                <p><strong>Maintenance & Updates:</strong></p>
+                <p>Basic technical support and minor updates included for 2 years from contract start date. Major redesigns or additional features may incur extra charges.</p>
+                
+                <p><strong>Client Responsibilities:</strong></p>
+                <ul>
+                    <li>Provide all necessary content, images, and materials</li>
+                    <li>Arrange and pay for domain registration independently</li>
+                    <li>Arrange and pay for web hosting independently</li>
+                    <li>Respond to developer inquiries in a timely manner</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="consent-box">
+            <div class="consent-checkbox">
+                <input type="checkbox" id="consentCheck">
+                <label for="consentCheck">I have read, understood, and agree to all terms and conditions stated above, including that domain registration and hosting are NOT included in the $200 service fee.</label>
+            </div>
+        </div>
+
+        <div class="signature-section">
+            <div class="signature-box">
+                <h3>Developer Signature</h3>
+                <p><strong>Name:</strong> Mara Masita</p>
+                <p><strong>Date:</strong> <span id="devDate"></span></p>
+            </div>
+            <div class="signature-box">
+                <h3>Client Signature</h3>
+                <p><strong>Name:</strong> <span id="clientSigName">______________________</span></p>
+                <p><strong>Date:</strong> <span id="clientDate"></span></p>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button class="btn-update" onclick="updateForm()">Update Information</button>
+            <button class="btn-sign" id="signBtn" onclick="signContract()" disabled>Sign Contract</button>
+            <button class="btn-pdf" id="pdfBtn" onclick="generatePDF()" disabled>Generate PDF</button>
+        </div>
+
+        <div class="success-message" id="successMsg">
+            ✓ Contract signed successfully! You can now generate the PDF.
+        </div>
+    </div>
+
+    <script>
+        let isSigned = false;
+        const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        
+        document.getElementById('devDate').textContent = today;
+
+        // Enable sign button when consent is checked and required fields are filled
+        document.getElementById('consentCheck').addEventListener('change', function() {
+            validateForm();
+        });
+
+        // Validate form on input change
+        ['clientName', 'clientEmail', 'clientPhone'].forEach(id => {
+            document.getElementById(id).addEventListener('input', validateForm);
+        });
+
+        function validateForm() {
+            const name = document.getElementById('clientName').value.trim();
+            const email = document.getElementById('clientEmail').value.trim();
+            const phone = document.getElementById('clientPhone').value.trim();
+            const consent = document.getElementById('consentCheck').checked;
+            
+            const signBtn = document.getElementById('signBtn');
+            signBtn.disabled = !(name && email && phone && consent && !isSigned);
+        }
+
+        function updateForm() {
+            if (isSigned) {
+                alert('Contract has already been signed. Please generate a new contract to make changes.');
+                return;
+            }
+            
+            document.getElementById('clientName').focus();
+            alert('You can now update the client information fields.');
+        }
+
+        function signContract() {
+            const name = document.getElementById('clientName').value.trim();
+            const email = document.getElementById('clientEmail').value.trim();
+            const phone = document.getElementById('clientPhone').value.trim();
+            
+            if (!name || !email || !phone) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            
+            if (!document.getElementById('consentCheck').checked) {
+                alert('Please consent to the terms and conditions before signing.');
+                return;
+            }
+            
+            // Sign the contract
+            isSigned = true;
+            document.getElementById('clientSigName').textContent = name;
+            document.getElementById('clientDate').textContent = today;
+            
+            // Disable form fields
+            document.getElementById('clientName').classList.add('readonly');
+            document.getElementById('clientEmail').classList.add('readonly');
+            document.getElementById('clientPhone').classList.add('readonly');
+            document.getElementById('clientCompany').classList.add('readonly');
+            document.getElementById('clientName').readOnly = true;
+            document.getElementById('clientEmail').readOnly = true;
+            document.getElementById('clientPhone').readOnly = true;
+            document.getElementById('clientCompany').readOnly = true;
+            document.getElementById('consentCheck').disabled = true;
+            
+            // Update buttons
+            document.getElementById('signBtn').disabled = true;
+            document.getElementById('pdfBtn').disabled = false;
+            
+            // Show success message
+            document.getElementById('successMsg').style.display = 'block';
+            
+            // Scroll to success message
+            document.getElementById('successMsg').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function generatePDF() {
+            if (!isSigned) {
+                alert('Please sign the contract first.');
+                return;
+            }
+            
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const margin = 20;
+            const lineHeight = 7;
+            let y = 20;
+            
+            // Header
+            doc.setFontSize(18);
+            doc.setFont(undefined, 'bold');
+            doc.text('Website Development Contract Agreement', pageWidth / 2, y, { align: 'center' });
+            y += lineHeight * 2;
+            
+            doc.setFontSize(10);
+            doc.setFont(undefined, 'normal');
+            
+            // Developer Info
+            doc.setFont(undefined, 'bold');
+            doc.text('Developer Information:', margin, y);
+            y += lineHeight;
+            doc.setFont(undefined, 'normal');
+            doc.text('Name: Mara Masita', margin, y);
+            y += lineHeight;
+            doc.text('Phone: 0716145925', margin, y);
+            y += lineHeight * 1.5;
+            
+            // Client Info
+            doc.setFont(undefined, 'bold');
+            doc.text('Client Information:', margin, y);
+            y += lineHeight;
+            doc.setFont(undefined, 'normal');
+            doc.text('Name: ' + document.getElementById('clientName').value, margin, y);
+            y += lineHeight;
+            doc.text('Email: ' + document.getElementById('clientEmail').value, margin, y);
+            y += lineHeight;
+            doc.text('Phone: ' + document.getElementById('clientPhone').value, margin, y);
+            y += lineHeight;
+            const company = document.getElementById('clientCompany').value;
+            if (company) {
+                doc.text('Company: ' + company, margin, y);
+                y += lineHeight;
+            }
+            y += lineHeight * 0.5;
+            
+            // Contract Terms
+            doc.setFont(undefined, 'bold');
+            doc.text('Contract Terms:', margin, y);
+            y += lineHeight;
+            doc.setFont(undefined, 'normal');
+            doc.text('Period: November 20, 2025 to November 20, 2027 (2 Years)', margin, y);
+            y += lineHeight;
+            doc.text('Service: Two (2) professional websites', margin, y);
+            y += lineHeight;
+            doc.text('Total Fee: $200.00 USD', margin, y);
+            y += lineHeight * 1.5;
+            
+            doc.setFont(undefined, 'bold');
+            doc.text('IMPORTANT - NOT INCLUDED:', margin, y);
+            y += lineHeight;
+            doc.setFont(undefined, 'normal');
+            doc.text('- Domain name registration and fees', margin, y);
+            y += lineHeight;
+            doc.text('- Web hosting services and fees', margin, y);
+            y += lineHeight;
+            doc.text('- SSL certificates, email hosting', margin, y);
+            y += lineHeight * 1.5;
+            
+            // Included Services
+            doc.setFont(undefined, 'bold');
+            doc.text('Included Services:', margin, y);
+            y += lineHeight;
+            doc.setFont(undefined, 'normal');
+            doc.text('- Custom website design and development', margin, y);
+            y += lineHeight;
+            doc.text('- Responsive design (mobile, tablet, desktop)', margin, y);
+            y += lineHeight;
+            doc.text('- Basic SEO optimization', margin, y);
+            y += lineHeight;
+            doc.text('- Initial content upload', margin, y);
+            y += lineHeight;
+            doc.text('- 2 years of technical support', margin, y);
+            y += lineHeight * 2;
+            
+            // Signatures
+            doc.setFont(undefined, 'bold');
+            doc.text('Signatures:', margin, y);
+            y += lineHeight * 1.5;
+            doc.setFont(undefined, 'normal');
+            doc.text('Developer: Mara Masita', margin, y);
+            doc.text('Date: ' + today, pageWidth - margin - 40, y);
+            y += lineHeight * 2;
+            doc.text('Client: ' + document.getElementById('clientName').value, margin, y);
+            doc.text('Date: ' + today, pageWidth - margin - 40, y);
+            
+            // Save PDF
+            const fileName = 'Website_Contract_' + document.getElementById('clientName').value.replace(/\s+/g, '_') + '.pdf';
+            doc.save(fileName);
+            
+            alert('PDF generated successfully! The contract has been downloaded.');
+        }
+    </script>
+</body>
+</html>
